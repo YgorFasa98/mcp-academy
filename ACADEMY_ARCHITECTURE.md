@@ -20,14 +20,14 @@ To preserve the approved Essentials single-file experience and its stable state 
 - `build_data.py` regenerates `assets/advanced-data.js`/`.json`, with 28 bilingual lessons and 40 module questions.
 - Advanced source is readable, with no paid or bundled external dependencies.
 - Interactive IFC widgets are **static educational snapshots**, based on raw EXPRESS/STEP entity counts observed in the supplied IFC4X3_ADD2 export. They do not connect to Revit.
-- Developer Lab starter is source code only, awaiting validation/compilation on a Windows Revit 2027 workstation.
+- Developer Lab starter is source code only, awaiting validation/compilation on a Windows Revit 2027.3 workstation.
 
 ## Security and distribution
 
 - Do **not** add the user's raw IFC or RVT to GitHub until public redistribution and metadata/privacy are expressly approved.
 - IFC export header may contain email and organisational metadata; only non-identifying counts and type names are included on the website.
 - The Developer Lab localhost bridge is unauthenticated and read-only; it must not be exposed outside a trusted lab computer without authentication and further hardening.
-- The official Autodesk MCP Technical Preview supports the published 2027.2 build. The course IFC indicates a 27.3 exporter; these are different assertions and must not be conflated.
+- The course targets **Revit 2027.3**. Compatibility with the MCP integration is confirmed by the course author. The provided IFC export metadata indicates Revit 27.3.0.28. Actual lab results and exact Tools must be checked on the target machine.
 
 ## Testing expectation
 
