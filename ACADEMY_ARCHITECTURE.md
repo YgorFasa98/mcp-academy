@@ -1,41 +1,34 @@
-# MCP Academy — future-proof architecture (planning only)
+# MCP Academy — Architecture note (v2)
 
-**Status:** Main platform configured and Essentials content complete. Advanced content is intentionally **not started**.
+Author: **Ygor Fasanella**. Updated October 2026.
 
-## Tracks
+## Paths and state
 
-- `essentials`: live. Lesson IDs `e1`…`e5`; step IDs `eNsM`.
-- `advanced`: reserved for subsequent integration, with planned modules A1–A8 and optional Developer Lab. No lesson content, quiz questions, or placeholder lessons implemented.
+| Track | Entry | Storage key |
+|---|---|---|
+| Essentials (existing) | `index.html` | `mcp-academy-progress-v1` |
+| Advanced | `advanced.html` | `mcp-academy-advanced-v2` |
 
-## Content and UI principles
+The language toggle in Advanced updates the existing Essentials key's `lang` property in-place, preserving progress and `best`; Essentials remains unchanged otherwise. Advanced initialises from the Essentials language if its own key does not yet exist.
 
-- One shared static application and one language toggle independent of track progress.
-- Translations colocated with their language-neutral identifiers.
-- Preserve identifiers when translations change.
-- Lesson completion and assessment passing remain distinct.
-- Final quiz threshold: 80%; unlimited attempts; best score persists.
-- Optional laboratories must not affect the mandatory completion percentage.
-- Live demonstrations and simulated data clearly distinguished.
-- No paid software requirements other than Revit; free AI tiers must be verified at implementation time.
+## Why a separate static page?
 
-## Progress structure in v1
+To preserve the approved Essentials single-file experience and its stable state schema. Advanced has independent modules, module quizzes, optional labs and model snapshots. Both run on GitHub Pages, without backend, accounts, or network calls from app code. The only external URLs are user-initiated links to primary documentation.
 
-Browser key: `mcp-academy-progress-v1`.
-Current persisted properties: `lang`, `lessonId`, `step`, `completed`, `best`.
+## Authoring and reproducibility
 
-For Advanced, add a separate `advanced` object (or key `mcp-academy-advanced-progress-v1`) without overwriting v1 Essentials data. Import/export should preserve both tracks in a migrated schema. Advanced will need model-specific expected results, to be calibrated after receipt of the RVT model.
+- `build_data.py` regenerates `assets/advanced-data.js`/`.json`, with 28 bilingual lessons and 40 module questions.
+- Advanced source is readable, with no paid or bundled external dependencies.
+- Interactive IFC widgets are **static educational snapshots**, based on raw EXPRESS/STEP entity counts observed in the supplied IFC4X3_ADD2 export. They do not connect to Revit.
+- Developer Lab starter is source code only, awaiting validation/compilation on a Windows Revit 2027 workstation.
 
-## Future implementation workflow
+## Security and distribution
 
-1. Obtain and inspect the provided RVT learning model.
-2. Verify Autodesk Revit 2027.2 MCP official available tools, free client capabilities, and environment-specific setup.
-3. Author and review eight Advanced modules, including working lab prompts and model-specific verification checklists.
-4. Integrate the Advanced lesson dataset and navigation, preserving stored Essentials progress and current website URL.
-5. Implement optional read/write labs and Developer Lab using a guided starter project; validate on an actual Revit installation.
-6. Rebuild the single-file web distribution, test offline and GitHub Pages deployments, and publish an update.
+- Do **not** add the user's raw IFC or RVT to GitHub until public redistribution and metadata/privacy are expressly approved.
+- IFC export header may contain email and organisational metadata; only non-identifying counts and type names are included on the website.
+- The Developer Lab localhost bridge is unauthenticated and read-only; it must not be exposed outside a trusted lab computer without authentication and further hardening.
+- The official Autodesk MCP Technical Preview supports the published 2027.2 build. The course IFC indicates a 27.3 exporter; these are different assertions and must not be conflated.
 
-## Deployment
+## Testing expectation
 
-Static root file is `index.html`, generated from source with `python build.py`. No external runtime scripts. Hosted paths are relative, so this works under a GitHub Pages project subpath (`username.github.io/repository/`) and can be opened as a local file.
-
-**Note:** A static site cannot run a local Autodesk MCP server or access Revit from users' browsers; the real practical labs will require a separate local Windows/Autodesk environment.
+Automated browser tests: lessons, navigation, quiz threshold, language continuity, new/old progress preservation, optional lab checklist, and local static asset accessibility. Independently validate the Revit API starter on the target Revit build before presenting it as fully operational.

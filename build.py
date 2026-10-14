@@ -1,12 +1,8 @@
-"""Build a self-contained, file://-compatible static website from editable sources."""
+"""Rebuild standalone Essentials after editing /src (Python standard library)."""
 from pathlib import Path
-ROOT = Path(__file__).resolve().parent
-src = ROOT / 'src'
-out = ROOT / 'index.html'
-html = (src/'template.html').read_text(encoding='utf-8')
-html = html.replace('/* INLINE_CSS */', (src/'style.css').read_text(encoding='utf-8'))
-html = html.replace('/* INLINE_DATA */', (src/'data.js').read_text(encoding='utf-8'))
-html = html.replace('/* INLINE_APP */', (src/'app.js').read_text(encoding='utf-8'))
-out.write_text(html,encoding='utf-8')
-(ROOT/'.nojekyll').touch()
-print(f'Built {out}: {out.stat().st_size:,} bytes')
+root=Path(__file__).resolve().parent
+html=(root/'src/template.html').read_text(encoding='utf-8')
+for token,file in [('INLINE_CSS','style.css'),('INLINE_DATA','data.js'),('INLINE_APP','app.js')]:
+    html=html.replace('/* '+token+' */',(root/'src'/file).read_text(encoding='utf-8'))
+(root/'index.html').write_text(html,encoding='utf-8')
+print('Rebuilt index.html')
