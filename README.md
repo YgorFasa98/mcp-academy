@@ -10,13 +10,13 @@ A free, bilingual (Italian/English), self-paced website about the **Model Contex
 - **Advanced**: eight modules, 28 lessons/labs, 40 assessment questions, approx. seven hours including guided exercises. Entry: `advanced.html`.
 - **Optional labs**: write-tool safety exercise and a read-only Python/C# Developer Lab starter (~2.5 additional hours).
 
-Both tracks have independent progress tracking, a shared **Progress** dashboard visible from either track, a consistent top navigation bar, free navigation, IT/EN language switching, and assessment feedback. The Advanced percentage counts only the 28 core lessons; optional Write and Developer Labs never affect it. Progress is saved in localStorage and can be exported as JSON; different browsers/devices do not sync automatically. Essentials uses its pre-existing `mcp-academy-progress-v1` key and has not been migrated or reset; Advanced uses `mcp-academy-advanced-v2`.
+Both tracks have independent progress tracking, one cross-track **Search**, one combined modal **Glossary**, and a shared **Progress** page with selectable Essentials/Advanced tabs, plus a consistent top navigation bar, free navigation, IT/EN language switching, and assessment feedback. The Advanced percentage counts only the 28 core lessons; optional Write and Developer Labs never affect it. Progress is saved in localStorage and can be exported as JSON; different browsers/devices do not sync automatically. Essentials uses its pre-existing `mcp-academy-progress-v1` key and has not been migrated or reset; Advanced uses `mcp-academy-advanced-v2`.
 
 ## Repository contents
 
 | Path | Meaning |
 |---|---|
-| `index.html` | Essentials single-file application; links to Advanced |
+| `index.html` | Essentials single-file application, includes both courses’ search indices and glossary; links to Advanced |
 | `advanced.html` | Advanced front end |
 | `assets/advanced-app.js` | Advanced navigation, widgets, quizzes and persistence |
 | `assets/advanced-data.js` | Structured bilingual course content |
@@ -24,10 +24,19 @@ Both tracks have independent progress tracking, a shared **Progress** dashboard 
 | `assets/advanced-data.json` | Editable copy of course data |
 | `src/shared-progress.js` and `.css` | Shared two-track progress overview (inlined into Essentials for offline support) |
 | `src/shared-header.css` | Advanced top bar styled identically to the site-wide header |
+| `src/academy-global.js` and `.css` | Global Search, unified glossary modal and Advanced-style tabbed Progress page (Essentials includes inlined copies) |
 | `build.py` | Regenerates self-contained `index.html` from editable `src/` files |
 | `developer-lab/mcp-revit-starter.zip` | Optional Python + C# source-code starter |
 | `build_data.py` | Generator/editor of Advanced content data |
 | `ACADEMY_ARCHITECTURE.md` | Architecture, limits and update notes |
+
+## Global navigation and deep links
+
+The Search, Glossary and Progress controls are **global** in both tracks and the home page. Search uses lesson content from both tracks (with module and step context); selecting a result opens the matching lesson or step, including cross-track results. The modal glossary merges the two dictionaries by term, keeping the existing Essentials visual language. Progress maintains Advanced's original detailed layout, with Essentials/Advanced tabs, course-specific backup tools and module/lesson summaries. Only the core 28 Advanced lessons count towards its progress bar; optional labs are separate.
+
+Search and Progress are non-destructive overlays: Back returns to the original view and scroll position. Glossary closes using X, Escape or clicking outside. Content and translations use the same locale selected in the site header. Native progress keys, completion ids and quiz scores remain intact.
+
+The `src/data.js` source is also included in `advanced.html` to enable global search and glossary; the Advanced data is inlined into the standalone `index.html` by `build.py`. Offline users must retain the supporting files for `advanced.html`.
 
 ## Publishing with GitHub Pages
 

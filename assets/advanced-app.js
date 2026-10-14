@@ -7,7 +7,25 @@ const KEY='mcp-academy-advanced-v2';
 const OLD='mcp-academy-progress-v1';
 const empty=()=>({lang:'it',view:'home',lesson:'a1.1',step:0,completed:[],quizzes:{},checks:{},optional:[]});
 function load(){let st=empty();try{const previous=JSON.parse(localStorage.getItem(KEY)||'null');if(previous&&typeof previous==='object'){st={...st,...previous};}else{const a=JSON.parse(localStorage.getItem(OLD)||'null');if(a?.lang)st.lang=a.lang;}}catch(_){}if(!['en','it'].includes(st.lang))st.lang='it';const valid=D.modules.flatMap(m=>m.lessons.map(l=>l.id));if(!valid.includes(st.lesson))st.lesson='a1.1';st.completed=Array.isArray(st.completed)?st.completed.filter(x=>valid.includes(x)):[];st.quizzes=st.quizzes&&typeof st.quizzes==='object'?st.quizzes:{};st.checks=st.checks&&typeof st.checks==='object'?st.checks:{};st.optional=Array.isArray(st.optional)?st.optional:[];return st;}
-let st=load();let menu=false;let quizValues={};let submitted=false;let snapshotCategory='IfcWall';let flowIndex=0;let searchQuery='';let toastMsg='';let toastTimer=0;
+let st=load();
+// Direct links from shared Academy search and progress cards.
+const academyStart = new URLSearchParams(window.location.search);
+if (academyStart.has('lesson')) {
+  const chosen = D.modules.flatMap(m=>m.lessons).find(l=>l.id===academyStart.get('lesson'));
+  if (chosen) {
+    st.lesson=chosen.id;
+    st.step=Math.min(chosen.steps.length-1,Math.max(0,Number(academyStart.get('step')||0)||0));
+    st.view='lesson';
+    window.history.replaceState(null,'',window.location.pathname);
+  }
+} else if (academyStart.has('module')) {
+  const chosen=D.modules.find(m=>m.id===academyStart.get('module'));
+  if(chosen){ st.mod=chosen.id; st.view='module'; window.history.replaceState(null,'',window.location.pathname); }
+} else if (academyStart.has('optional')) {
+  const chosen=D.optionalLabs.find(o=>o.id===academyStart.get('optional'));
+  if(chosen){ st.opt=chosen.id; st.view='optional'; window.history.replaceState(null,'',window.location.pathname); }
+}
+let menu=false;let quizValues={};let submitted=false;let snapshotCategory='IfcWall';let flowIndex=0;let searchQuery='';let toastMsg='';let toastTimer=0;
 const lang=()=>st.lang;
 const tr=(it,en)=>lang()==='it'?it:en;
 const loc=x=>typeof x==='string'?x:(x?.[st.lang]||'');

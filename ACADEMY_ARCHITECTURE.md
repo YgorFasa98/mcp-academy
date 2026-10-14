@@ -36,3 +36,11 @@ Automated browser tests: lessons, navigation, quiz threshold, language continuit
 ## Shared navigation and progress overview
 
 Both tracks use the same top navigation layout. Their Progress views show Essentials and Advanced together by reading the existing localStorage keys without migration. The Advanced denominator is derived from the 28 lessons across eight main modules; optional Write and Developer labs do not affect the percentage. The shared progress library is in `src/shared-progress.js` and is inlined into `index.html` by `build.py`, preserving offline use.
+
+## Academy-wide utilities (October 2026 update)
+
+`src/academy-global.js` and `src/academy-global.css` own Search, Glossary and Progress for both `index.html` and `advanced.html`. UI commands are intercepted in the capture phase before either track-specific router. The global panel is separate from the track root and closes without resetting the underlying view; using the header language toggle rerenders its content. The combined search draws on both stable course data sets and navigates using `?lesson=...&step=...` or `?module=...`/`?optional=...` to target a course without altering completion state. Each course initialises from these optional query parameters and removes them after opening the selected content.
+
+The Progress page uses Advanced's original visual conventions and three-stat/two-card sections, but introduces an accessible `tablist` at the top. It reads the same localStorage keys and uses track-specific JSON exports, imports and resets. A restore flag in sessionStorage returns users to the Progress page after an import/reset reload; other course progress is preserved.
+
+The modal glossary combines unique terms from both courses, preferentially keeping longer Essentials definitions for duplicate names. The combined Search and Glossary data is bundled in `index.html` for offline use; `advanced.html` loads both data files locally.

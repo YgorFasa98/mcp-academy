@@ -20,3 +20,6 @@
 
 /* Keep Progress reachable on narrow screens in both course headers. */
 @media(max-width:480px){.top-right>.nav-min:nth-child(2){display:none}.top-right>.nav-min:nth-child(4){display:flex}}
+
+/* The three global Academy tools remain available in mobile navigation. */
+@media(max-width:480px){.topbar .top-right>.nav-min:nth-child(2),.topbar .top-right>.nav-min:nth-child(4){display:flex}.topbar .brand-text{display:none}.topbar .top-inner{gap:4px}}

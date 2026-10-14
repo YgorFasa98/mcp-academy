@@ -28,3 +28,6 @@
 /* Match the Essentials brand sizing and flex shrinking on compact devices. */
 .topbar .brand{white-space:normal}
 .topbar .brand strong{letter-spacing:inherit}
+
+/* Keep Search, Glossary and Progress equally accessible on both tracks. */
+@media(max-width:480px){.topbar .top-right>.nav-min:nth-child(2),.topbar .top-right>.nav-min:nth-child(4){display:flex}.topbar .brand-text{display:none}.topbar .top-inner{gap:4px}}

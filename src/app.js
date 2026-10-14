@@ -5,6 +5,16 @@
   const KEY = 'mcp-academy-progress-v1';
   const empty = () => ({ lang: 'it', view: 'home', lessonId: 'e1', step: 0, completed: [], best: 0 });
   let state = load();
+  // Deep links emitted by Academy-wide search; keep existing progress unchanged.
+  const academyStart = new URLSearchParams(window.location.search);
+  if (academyStart.has('lesson') && D.lessons.some(l => l.id === academyStart.get('lesson'))) {
+    state.lessonId = academyStart.get('lesson');
+    state.step = Math.max(0, Math.min(Number(academyStart.get('step') || 0) || 0,
+      D.lessons.find(l => l.id === state.lessonId).steps.length - 1));
+    state.view = 'course';
+    window.history.replaceState(null, '', window.location.pathname);
+  }
+
   const ui = { arch: 'host', comparison: 'without', primitive: 0, primitiveAnswers: {}, simulation: 0, checkpoint: {}, quizAnswers: {}, quizSubmitted: false, search:'', glossary:'', modal: null, menu:false, toast:'' };
   let toastTimer;
   const root = document.getElementById('app');
