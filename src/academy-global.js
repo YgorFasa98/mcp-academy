@@ -36,7 +36,7 @@
     essentials: new Set(allEssential.map(l=>l.id)),
     advanced: new Set(allAdvanced.map(l=>l.id))
   };
-  const state = { view:null, tab:currentTrack, search:'', term:'', scroll:0, notice:'' };
+  const state = { view:null, tab:currentTrack, search:'', term:'', scroll:0, notice:'', modalParent:null, modalParentScroll:0 };
   const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const language = () => {
     try {
@@ -97,8 +97,14 @@
     const matches=glossary.filter(x=>!q || (x.term+' '+x[language()]).toLocaleLowerCase().includes(q));
     return `<div class="ag-backdrop" id="ag-glossary-backdrop" data-academy="backdrop"><div class="ag-modal-panel" role="dialog" aria-modal="true" aria-labelledby="ag-glossary-title"><div class="ag-modal-head"><div><span class="ag-overline">REFERENCE · MCP ACADEMY</span><h2 id="ag-glossary-title">${tr('Glossario','Glossary')}</h2><p>${tr('Definizioni condivise di Essentials e Advanced, disponibili in entrambe le lingue.','Definitions from Essentials and Advanced in both languages.')}</p></div><button class="ag-modal-close" data-academy="close" aria-label="${tr('Chiudi il glossario','Close glossary')}">${icon('close')}</button></div><label class="ag-search-wrap">${icon('search')}<input id="ag-glossary-field" type="search" autocomplete="off" value="${esc(state.term)}" placeholder="${tr('Cerca un termine…','Search for a term…')}" aria-label="${tr('Cerca nel glossario','Search glossary')}"></label><div class="ag-glossary-list">${matches.length?matches.map(x=>`<div class="ag-term"><h3>${esc(x.term)}</h3><p>${esc(x[language()])}</p></div>`).join(''):`<p class="ag-empty">${tr('Nessun termine trovato.','No term found.')}</p>`}</div></div></div>`;
   }
+  // The two course cards are the tab controls; no Academy-wide aggregate is displayed.
   function tabs() {
-    return `<div class="ag-tabs" role="tablist" aria-label="${tr('Percorsi formativi','Learning tracks')}">${['essentials','advanced'].map(c=>`<button id="ag-tab-${c}" role="tab" aria-selected="${state.tab===c}" tabindex="${state.tab===c?0:-1}" data-academy="tab" data-tab="${c}" aria-controls="ag-tabpanel"><span>MCP ${c==='essentials'?'Essentials':'Advanced'}</span></button>`).join('')}</div>`;
+    const snapshot=window.MCPAcademyProgress.snapshot();
+    return `<div class="ag-course-tabs" role="tablist" aria-label="${tr('Percorsi formativi','Learning tracks')}">${['essentials','advanced'].map((course,index)=>{
+      const data=snapshot[course], active=state.tab===course;
+      const quiz=course==='essentials'?`${tr('Miglior quiz finale','Best final quiz')}: <b>${data.best}%</b>`:`${tr('Quiz dei moduli superati','Module quizzes passed')}: <b>${data.passed}/${data.totalQuizzes}</b>`;
+      return `<button id="ag-tab-${course}" class="ag-course-tab${active?' is-active':''}" role="tab" aria-selected="${active}" tabindex="${active?0:-1}" data-academy="tab" data-tab="${course}" aria-controls="ag-tabpanel"><div class="ag-course-head"><div><span class="ag-course-overline">0${index+1} / ${tr('PERCORSO','TRACK')}</span><h2>MCP ${course==='essentials'?'Essentials':'Advanced'}</h2></div><strong class="ag-course-percent">${data.percent}%</strong></div><div class="ag-course-meter" role="progressbar" aria-label="MCP ${course} ${tr('completamento','completion')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${data.percent}"><span style="width:${data.percent}%"></span></div><div class="ag-course-foot"><span>${data.completed} / ${data.total} ${tr('lezioni completate','lessons completed')}</span><span>${quiz}</span></div>${course==='advanced'?`<p class="ag-course-note">${tr('I laboratori facoltativi non influenzano questa percentuale.','Optional labs do not affect this percentage.')}</p>`:''}</button>`;
+    }).join('')}</div>`;
   }
   function progressDetail() {
     const snapshot=window.MCPAcademyProgress.snapshot();
@@ -124,16 +130,19 @@
     return `<div id="ag-tabpanel" role="tabpanel" aria-labelledby="ag-tab-${state.tab}"><h2 class="ag-detail-heading">${isAdvanced?tr('Dettaglio Advanced','Advanced details'):tr('Dettaglio Essentials','Essentials details')}</h2><div class="ag-progress-grid">${stats.map(([value,desc])=>`<div class="ag-progress-stat"><b>${esc(value)}</b><span>${esc(desc)}</span></div>`).join('')}</div><div class="ag-util-card"><h2>${tr('Backup dei progressi','Progress backup')} ${isAdvanced?'Advanced':'Essentials'}</h2><p class="ag-helper">${tr('I progressi dei due percorsi sono conservati separatamente nello stesso browser. Questi comandi agiscono soltanto su','Both tracks are stored separately in this browser. These controls affect only')} ${isAdvanced?'Advanced':'Essentials'}.</p><div class="ag-actions"><button data-academy="export" class="ag-button light">${tr('Esporta JSON','Export JSON')}</button><button data-academy="import" class="ag-button light">${tr('Importa JSON','Import JSON')}</button><button data-academy="reset" class="ag-button light">${tr('Azzera','Reset')} ${isAdvanced?'Advanced':'Essentials'}</button></div><input id="ag-import-input" type="file" accept=".json,application/json" hidden></div><div class="ag-util-card"><h2>${isAdvanced?tr('Moduli Advanced','Advanced modules'):tr('Lezioni Essentials','Essentials lessons')}</h2>${modules}</div></div>`;
   }
   function progressPage() {
-    return `<main class="ag-advanced-utility"><button class="ag-back" data-academy="back">${icon('back')} ${tr('Torna alla pagina precedente','Back to previous page')}</button><span class="ag-overline">MY LEARNING</span><h1>${tr('Progressi Academy','Academy progress')}</h1><p class="ag-progress-intro">${tr('Le percentuali considerano le lezioni dei percorsi principali. I laboratori facoltativi non contano nel completamento di Advanced.','Percentages cover lessons in the core tracks. Optional labs do not count toward Advanced completion.')}</p>${tabs()}${progressDetail()}${state.notice?`<p class="ag-notice" role="status">${esc(state.notice)}</p>`:''}</main>`;
+    return `<main class="ag-advanced-utility"><span class="ag-overline">MY LEARNING</span><h1>${tr('Progressi Academy','Academy progress')}</h1><p class="ag-progress-intro">${tr('Le percentuali considerano le lezioni dei percorsi principali. I laboratori facoltativi non contano nel completamento di Advanced.','Percentages cover lessons in the core tracks. Optional labs do not count toward Advanced completion.')}</p>${tabs()}${progressDetail()}${state.notice?`<p class="ag-notice" role="status">${esc(state.notice)}</p>`:''}</main>`;
   }
   function removeSurface() {document.getElementById('academy-global-ui')?.remove();document.body.classList.remove('academy-global-page','academy-global-dialog');}
   function render(focusId=null) {
     if(!state.view)return;
     removeSurface();
-    if(state.view==='glossary') document.body.classList.add('academy-global-dialog');
-    else document.body.classList.add('academy-global-page');
+    if(state.view==='glossary') {
+      document.body.classList.add('academy-global-dialog');
+      if(state.modalParent) document.body.classList.add('academy-global-page');
+    } else document.body.classList.add('academy-global-page');
     const el=document.createElement('div');el.id='academy-global-ui';
-    el.innerHTML=state.view==='glossary'?glossaryModal():state.view==='search'?searchPage():progressPage();
+    const previous=state.modalParent==='progress'?progressPage():state.modalParent==='search'?searchPage():'';
+    el.innerHTML=state.view==='glossary'?previous+glossaryModal():state.view==='search'?searchPage():progressPage();
     document.body.appendChild(el);
     if(focusId) {
       const input=document.getElementById(focusId);input?.focus();
@@ -143,6 +152,10 @@
   }
   function open(view) {
     if(!state.view)state.scroll=window.scrollY;
+    if(view==='glossary' && state.view && state.view!=='glossary') {
+      state.modalParent=state.view;
+      state.modalParentScroll=window.scrollY;
+    } else if(view!=='glossary') state.modalParent=null;
     state.view=view;state.notice='';
     if(view==='search')state.search='';
     if(view==='glossary')state.term='';
@@ -151,7 +164,11 @@
   }
   function close() {
     if(!state.view)return;
-    removeSurface();state.view=null;state.notice='';
+    if(state.view==='glossary' && state.modalParent){
+      const prior=state.modalParent, scroll=state.modalParentScroll;
+      state.modalParent=null;state.view=prior;render();window.scrollTo(0,scroll);return;
+    }
+    removeSurface();state.view=null;state.modalParent=null;state.notice='';
     window.scrollTo(0,state.scroll);
   }
   function download(data,name) {
@@ -208,6 +225,21 @@
   // Capture global header commands before the individual course's legacy router.
   document.addEventListener('click',event=>{
     // Global tools work from the header, the home hero and either course sidebar.
+    const navButton=event.target.closest('[data-academy-nav]');
+    if(navButton){
+      const nav=navButton.dataset.academyNav;
+      if(nav==='search'||nav==='glossary'||nav==='progress'){event.preventDefault();event.stopImmediatePropagation();open(nav);return;}
+      if(nav==='language'){
+        event.preventDefault();event.stopImmediatePropagation();
+        const requested=navButton.dataset.lang;
+        if(!['it','en'].includes(requested))return;
+        window.MCPAcademySetLanguage?.(requested);
+        for(const key of [EKEY,AKEY]){try{const item=JSON.parse(localStorage.getItem(key)||'null');if(item&&typeof item==='object'){item.lang=requested;localStorage.setItem(key,JSON.stringify(item));}}catch(_){}}
+        if(state.view)render(state.view==='search'?'ag-search-field':state.view==='glossary'?'ag-glossary-field':null);
+        return;
+      }
+      if(nav==='menu'){event.preventDefault();event.stopImmediatePropagation();window.MCPAcademyToggleMenu?.();return;}
+    }
     const toolButton=event.target.closest('[data-action="search"], [data-action="glossary"], [data-action="progress"], [data-act="search"], [data-act="glossary"], [data-act="progress"]');
     if(toolButton){
       event.preventDefault();event.stopPropagation();
@@ -237,7 +269,7 @@
   },true);
   document.addEventListener('keydown',event=>{
     if(state.view && event.key==='Escape') {event.preventDefault();event.stopPropagation();close();return;}
-    const tab=event.target.closest?.('.ag-tabs [role="tab"]');
+    const tab=event.target.closest?.('.ag-course-tabs [role="tab"]');
     if(tab && (event.key==='ArrowLeft'||event.key==='ArrowRight')){
       event.preventDefault();state.tab=state.tab==='advanced'?'essentials':'advanced';render();document.getElementById('ag-tab-'+state.tab)?.focus();
     }

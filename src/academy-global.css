@@ -61,3 +61,20 @@ body.academy-global-dialog{overflow:hidden}
 @media(max-width:640px){.ag-utility-page,.ag-advanced-utility{padding:30px 17px 70px}.ag-utility-head h1,.ag-advanced-utility h1{font-size:29px}.ag-back{margin-bottom:27px}.ag-modal-panel{padding:22px 18px 12px}.ag-backdrop{padding:12px}.ag-modal-head h2{font-size:25px}.ag-progress-grid{grid-template-columns:1fr 1fr}.ag-progress-stat:last-child{grid-column:1/-1}.ag-tabs{max-width:none}.ag-tabs button{padding:12px 8px}}
 @media(prefers-reduced-motion:reduce){.ag-search-result{transition:none}}
 @media print{#academy-global-ui .ag-back,#academy-global-ui .ag-tabs,#academy-global-ui .ag-actions{display:none!important}}
+
+/* Large, selectable course cards: same visual vocabulary as the two-course overview. */
+.ag-course-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:23px 0 34px}
+.ag-course-tab{font-family:inherit;text-align:left;background:#fff;border:1px solid #d6e3ef;color:#122f54;border-radius:20px;padding:28px 31px;min-height:249px;width:100%;box-shadow:0 8px 22px #15345408;transition:border-color .15s,box-shadow .15s}
+.ag-course-tab:hover{border-color:#7eb5d4;box-shadow:0 10px 28px #17375d12}
+.ag-course-tab.is-active{border-color:#4797c4;box-shadow:0 0 0 2px #4797c42b,0 12px 27px #14385b12}
+.ag-course-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:0 0 23px}
+.ag-course-overline{font-size:12px;font-weight:800;letter-spacing:.13em;color:#8094aa}
+.ag-course-head h2{font-size:25px;letter-spacing:-.04em;color:#113966;margin:13px 0 0}
+.ag-course-percent{font-size:38px;font-weight:800;line-height:1;color:#123967;white-space:nowrap}
+.ag-course-meter{height:13px;background:#e4ebf3;border-radius:50px;overflow:hidden}
+.ag-course-meter span{height:100%;display:block;background:linear-gradient(90deg,#54c0bc,#3587bd);border-radius:50px;transition:width .2s}
+.ag-course-foot{display:flex;justify-content:space-between;gap:12px;margin-top:21px;color:#577493;font-size:13px}
+.ag-course-foot b{color:#123a68}
+.ag-course-note{color:#65809b;font-size:12px;margin:18px 0 0}
+@media(max-width:720px){.ag-course-tabs{grid-template-columns:1fr;gap:15px}.ag-course-tab{min-height:0;padding:22px}.ag-course-percent{font-size:32px}.ag-course-head h2{font-size:22px}.ag-course-foot{font-size:12px;flex-wrap:wrap}}
+@media print{#academy-global-ui .ag-course-tabs{display:grid!important}}
