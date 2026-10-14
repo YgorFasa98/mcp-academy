@@ -32,3 +32,7 @@ To preserve the approved Essentials single-file experience and its stable state 
 ## Testing expectation
 
 Automated browser tests: lessons, navigation, quiz threshold, language continuity, new/old progress preservation, optional lab checklist, and local static asset accessibility. Independently validate the Revit API starter on the target Revit build before presenting it as fully operational.
+
+## Shared navigation and progress overview
+
+Both tracks use the same top navigation layout. Their Progress views show Essentials and Advanced together by reading the existing localStorage keys without migration. The Advanced denominator is derived from the 28 lessons across eight main modules; optional Write and Developer labs do not affect the percentage. The shared progress library is in `src/shared-progress.js` and is inlined into `index.html` by `build.py`, preserving offline use.

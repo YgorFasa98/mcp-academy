@@ -17,3 +17,6 @@
 .prose .sim-content pre code{background:transparent;color:inherit;padding:0;font:inherit}
 @media(max-width:790px){.top-right>.nav-min:first-child{display:none}.top-inner{gap:7px}.top-right{flex-shrink:0}}
 @media(max-width:480px){.top-right{gap:0}.top-right>.nav-min{padding:8px 6px}.top-right>.nav-min:nth-child(4){display:none}.brand{gap:7px}.brand-text small{display:none}.brand-text{font-size:15px}.lang-switch button{padding:6px 8px}.mobile-menu{padding:6px}}
+
+/* Keep Progress reachable on narrow screens in both course headers. */
+@media(max-width:480px){.top-right>.nav-min:nth-child(2){display:none}.top-right>.nav-min:nth-child(4){display:flex}}

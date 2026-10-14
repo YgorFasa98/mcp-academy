@@ -10,7 +10,7 @@ A free, bilingual (Italian/English), self-paced website about the **Model Contex
 - **Advanced**: eight modules, 28 lessons/labs, 40 assessment questions, approx. seven hours including guided exercises. Entry: `advanced.html`.
 - **Optional labs**: write-tool safety exercise and a read-only Python/C# Developer Lab starter (~2.5 additional hours).
 
-Both tracks have independent progress tracking, free navigation, IT/EN language switching, and assessment feedback. Progress is saved in localStorage and can be exported as JSON; different browsers/devices do not sync automatically. Essentials uses its pre-existing `mcp-academy-progress-v1` key and has not been migrated or reset; Advanced uses `mcp-academy-advanced-v2`.
+Both tracks have independent progress tracking, a shared **Progress** dashboard visible from either track, a consistent top navigation bar, free navigation, IT/EN language switching, and assessment feedback. The Advanced percentage counts only the 28 core lessons; optional Write and Developer Labs never affect it. Progress is saved in localStorage and can be exported as JSON; different browsers/devices do not sync automatically. Essentials uses its pre-existing `mcp-academy-progress-v1` key and has not been migrated or reset; Advanced uses `mcp-academy-advanced-v2`.
 
 ## Repository contents
 
@@ -22,6 +22,9 @@ Both tracks have independent progress tracking, free navigation, IT/EN language 
 | `assets/advanced-data.js` | Structured bilingual course content |
 | `assets/advanced.css` | Advanced styling and responsive layout |
 | `assets/advanced-data.json` | Editable copy of course data |
+| `src/shared-progress.js` and `.css` | Shared two-track progress overview (inlined into Essentials for offline support) |
+| `src/shared-header.css` | Advanced top bar styled identically to the site-wide header |
+| `build.py` | Regenerates self-contained `index.html` from editable `src/` files |
 | `developer-lab/mcp-revit-starter.zip` | Optional Python + C# source-code starter |
 | `build_data.py` | Generator/editor of Advanced content data |
 | `ACADEMY_ARCHITECTURE.md` | Architecture, limits and update notes |

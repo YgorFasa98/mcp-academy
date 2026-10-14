@@ -1,0 +1,30 @@
+/* Same top navigation bar as the main Academy site, with Advanced routing. */
+.topbar{height:80px;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;backdrop-filter:blur(20px)}
+.topbar .top-inner{max-width:1432px;padding:0 45px;margin:auto;height:100%;display:flex;justify-content:space-between;align-items:center}
+.topbar .brand{display:flex;gap:12px;align-items:center;background:none;border:0;padding:0;color:var(--ink);text-align:left}
+.topbar .brand-mark{width:43px;height:43px;background:var(--navy);color:white;display:grid;place-items:center;border-radius:12px;font-size:24px;font-weight:800;letter-spacing:-.13em;padding-right:4px}
+.topbar .brand-mark span{color:#60d9d1}
+.topbar .brand-text{font-size:18px;line-height:1.05;font-weight:500;letter-spacing:-.045em}
+.topbar .brand-text strong{font-weight:800}
+.topbar .brand-text small{display:block;font-size:8px;letter-spacing:.19em;color:#7d8c9b;font-weight:750;margin-top:6px}
+.topbar .top-right{display:flex;gap:15px;align-items:center}
+.topbar .nav-min{display:flex;align-items:center;gap:7px;background:transparent;border:0;padding:10px 8px;font-size:13px;font-weight:650;color:#5b6f84;border-radius:7px}
+.topbar .nav-min:hover,.topbar .nav-min:focus-visible{background:#f3f7fb;color:var(--navy)}
+.topbar .lang-switch{display:flex;border:1px solid #dce5ef;background:#f1f5f9;padding:3px;border-radius:9px;gap:2px;margin-left:12px}
+.topbar .lang-switch button{padding:6px 10px;border:0;border-radius:6px;background:transparent;color:#728297;font-weight:750;font-size:12px}
+.topbar .lang-switch .on{background:var(--white);color:var(--navy);box-shadow:0 1px 4px #14375b17}
+.topbar .mobile-menu{display:none;border:0;background:transparent;color:var(--navy)}
+.topbar .brand{cursor:pointer;text-decoration:none;white-space:nowrap;color:#142b46}
+.topbar .nav-min{cursor:pointer;text-decoration:none}
+.topbar .lang-switch button{cursor:pointer}
+@media(max-width:1040px){.topbar .top-inner{padding:0 24px}.topbar .top-right{gap:6px}}
+@media(max-width:790px){.topbar{height:68px}.topbar .top-inner{padding:0 17px}.topbar .brand-mark{width:38px;height:38px}.topbar .brand-text{font-size:16px}.topbar .nav-min{padding:8px}.topbar .nav-min span{display:none}.topbar .mobile-menu{display:grid;place-items:center}.topbar .lang-switch{margin-left:2px}.topbar .top-right>.nav-min:first-child{display:none}.topbar .top-inner{gap:7px}.topbar .top-right{flex-shrink:0}}
+@media(max-width:480px){.topbar .top-right{gap:0}.topbar .top-right>.nav-min{padding:8px 6px}.topbar .top-right>.nav-min:nth-child(4){display:none}.topbar .brand{gap:7px}.topbar .brand-text small{display:none}.topbar .brand-text{font-size:15px}.topbar .lang-switch button{padding:6px 8px}.topbar .mobile-menu{padding:6px}}
+@media print{.topbar{display:none!important}}
+
+@media(max-width:480px){.topbar .top-right>.nav-min:nth-child(2){display:none}.topbar .top-right>.nav-min:nth-child(4){display:flex}}
+.topbar .brand-text strong{font-size:inherit}
+
+/* Match the Essentials brand sizing and flex shrinking on compact devices. */
+.topbar .brand{white-space:normal}
+.topbar .brand strong{letter-spacing:inherit}
