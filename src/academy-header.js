@@ -1,4 +1,4 @@
-/* A single shared toolbar for every MCP Academy page. */
+/* A single shared toolbar for every MCP4BIM Academy page. */
 window.MCPAcademyToolbar = (()=>{
   'use strict';
   const icons={
@@ -11,7 +11,7 @@ window.MCPAcademyToolbar = (()=>{
   function render(language='it'){
     const it=language!=='en';
     const search=it?'Cerca':'Search', glossary=it?'Glossario':'Glossary', progress=it?'Progressi':'Progress';
-    return `<header class="topbar"><div class="top-inner"><a class="brand" href="./index.html" aria-label="MCP Academy — Home"><span class="brand-mark">M<span>.</span></span><span class="brand-text">MCP <strong>Academy</strong><small>LEARNING PLATFORM</small></span></a><div class="top-right"><a class="nav-min" href="./index.html">Home</a><button class="nav-min" type="button" data-academy-nav="search" aria-label="${search}">${icon('search')}<span>${search}</span></button><button class="nav-min" type="button" data-academy-nav="glossary" aria-label="${glossary}">${icon('glossary')}<span>${glossary}</span></button><button class="nav-min" type="button" data-academy-nav="progress" aria-label="${progress}">${icon('progress')}<span>${progress}</span></button><div class="lang-switch" role="group" aria-label="Language"><button type="button" data-academy-nav="language" data-lang="it" class="${it?'on':''}" aria-pressed="${it}">IT</button><button type="button" data-academy-nav="language" data-lang="en" class="${it?'':'on'}" aria-pressed="${!it}">EN</button></div><button class="mobile-menu" type="button" data-academy-nav="menu" aria-label="${it?'Apri il menu':'Open menu'}">${icon('menu')}</button></div></div></header>`;
+    return `<header class="topbar"><div class="top-inner"><a class="brand" href="./index.html" aria-label="MCP4BIM Academy — Home"><span class="brand-mark">M<span>.</span></span><span class="brand-text">MCP4BIM <strong>Academy</strong><small>LEARNING PLATFORM</small></span></a><div class="top-right"><a class="nav-min" href="./index.html">Home</a><button class="nav-min" type="button" data-academy-nav="search" aria-label="${search}">${icon('search')}<span>${search}</span></button><button class="nav-min" type="button" data-academy-nav="glossary" aria-label="${glossary}">${icon('glossary')}<span>${glossary}</span></button><button class="nav-min" type="button" data-academy-nav="progress" aria-label="${progress}">${icon('progress')}<span>${progress}</span></button><div class="lang-switch" role="group" aria-label="Language"><button type="button" data-academy-nav="language" data-lang="it" class="${it?'on':''}" aria-pressed="${it}">IT</button><button type="button" data-academy-nav="language" data-lang="en" class="${it?'':'on'}" aria-pressed="${!it}">EN</button></div><button class="mobile-menu" type="button" data-academy-nav="menu" aria-label="${it?'Apri il menu':'Open menu'}">${icon('menu')}</button></div></div></header>`;
   }
   return {render};
 })();

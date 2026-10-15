@@ -1,4 +1,6 @@
-# MCP Academy · Essentials + Advanced
+# MCP4BIM Academy · Essentials + Advanced
+
+**Public website name:** MCP4BIM Academy. The repository remains `mcp-academy` to preserve the GitHub Pages URL, and local progress storage keys remain unchanged.
 
 **Author: Ygor Fasanella · 2026**
 
@@ -50,7 +52,7 @@ Download the whole repository as ZIP and open `index.html` locally. `advanced.ht
 
 - The course uses **observed counts** from a reference IFC4X3_ADD2 export supplied for development: `IfcWall=30`, `IfcDoor=15`, `IfcWindow=7`, `IfcBuildingStorey=6`, etc. They are **not** live MCP queries.
 - The original RVT and IFC files are **not hosted or redistributed**: the IFC header contains personal metadata and public redistribution must be authorised separately.
-- The IFC metadata identifies Autodesk Revit 27.3.0.28. MCP Academy uses **Revit 2027.3**; compatibility with the Autodesk MCP integration is confirmed by the course author. Confirm individual Tools and configurations in your installed environment.
+- The IFC metadata identifies Autodesk Revit 27.3.0.28. MCP4BIM Academy uses **Revit 2027.3**; compatibility with the Autodesk MCP integration is confirmed by the course author. Confirm individual Tools and configurations in your installed environment.
 - The optional C# Revit add-in is source code awaiting build/validation on Windows with Revit and the Revit API. It is not an Autodesk-certified solution or a tested release.
 - All course materials and the static Python snapshot can be used without paid AI services; the real conversational labs use a compatible free-tier client where available. The student requires Revit for live Revit operations, and free-tier AI limits may apply.
 - Read-only tools should be preferred. Optional write operations must use a project copy and explicit verification.

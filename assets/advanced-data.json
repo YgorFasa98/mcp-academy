@@ -1302,8 +1302,8 @@
                 "en": "Applied example"
               },
               "text": {
-                "it": "Il file IFC didattico contiene metadati di esportazione. MCP Academy pubblica soltanto conteggi e valori necessari agli esercizi; i file RVT/IFC originali non sono inclusi automaticamente nel sito.",
-                "en": "The course IFC includes export metadata. MCP Academy publishes only counts and values necessary for exercises; the original RVT/IFC files are not automatically included on the website."
+                "it": "Il file IFC didattico contiene metadati di esportazione. MCP4BIM Academy pubblica soltanto conteggi e valori necessari agli esercizi; i file RVT/IFC originali non sono inclusi automaticamente nel sito.",
+                "en": "The course IFC includes export metadata. MCP4BIM Academy publishes only counts and values necessary for exercises; the original RVT/IFC files are not automatically included on the website."
               },
               "widget": "ifc"
             },
@@ -1369,8 +1369,8 @@
         },
         {
           "q": {
-            "it": "Quale versione di Revit viene utilizzata nei laboratori MCP Academy?",
-            "en": "Which Revit version is used in the MCP Academy labs?"
+            "it": "Quale versione di Revit viene utilizzata nei laboratori MCP4BIM Academy?",
+            "en": "Which Revit version is used in the MCP4BIM Academy labs?"
           },
           "opts": {
             "it": [
@@ -2206,7 +2206,7 @@
                 "it": "Installa `mcp[cli]` tramite uv, crea il file e usa `mcp.run(transport=\"stdio\")` come entrypoint. La funzione demo usa conteggi estratti dall’IFC, validando la categoria richiesta. Non scrivere log su stdout.",
                 "en": "Install `mcp[cli]` using uv, create the file and use `mcp.run(transport=\"stdio\")` as an entrypoint. The demo function uses counts observed in IFC and validates the requested category. Avoid stdout logging."
               },
-              "code": "from mcp.server import MCPServer\nmcp = MCPServer(\"MCP Academy BIM\")\n\n@mcp.tool()\ndef get_course_model_counts(category: str) -> dict:\n    \"\"\"Read the STATIC IFC course snapshot; does not query Revit.\"\"\"\n    counts = {\"IfcWall\":30,\"IfcDoor\":15,\"IfcWindow\":7,\"IfcSlab\":11}\n    if category not in counts:\n        return {\"error\": \"unsupported_category\", \"category\": category}\n    return {\"category\":category,\"count\":counts[category],\"source\":\"IFC snapshot\"}\n\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")"
+              "code": "from mcp.server import MCPServer\nmcp = MCPServer(\"MCP4BIM Academy BIM\")\n\n@mcp.tool()\ndef get_course_model_counts(category: str) -> dict:\n    \"\"\"Read the STATIC IFC course snapshot; does not query Revit.\"\"\"\n    counts = {\"IfcWall\":30,\"IfcDoor\":15,\"IfcWindow\":7,\"IfcSlab\":11}\n    if category not in counts:\n        return {\"error\": \"unsupported_category\", \"category\": category}\n    return {\"category\":category,\"count\":counts[category],\"source\":\"IFC snapshot\"}\n\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")"
             },
             {
               "title": {

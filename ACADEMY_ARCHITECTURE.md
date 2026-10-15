@@ -1,4 +1,4 @@
-# MCP Academy — Architecture note (v2)
+# MCP4BIM Academy — Architecture note (v2)
 
 Author: **Ygor Fasanella**. Updated October 2026.
 
